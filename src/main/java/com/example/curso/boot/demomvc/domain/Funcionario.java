@@ -1,5 +1,9 @@
 package com.example.curso.boot.demomvc.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,12 +14,15 @@ public class Funcionario extends AbstractEntity<Long>{
     @Column(nullable = false, unique = true)
     private String nome;
 
+    @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     @Column(nullable = false, columnDefinition = "DECIMAL(7,2) DEFAULT 0.00")
     private BigDecimal salario;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name ="data_entrada", nullable = false, columnDefinition = "DATE")
     private LocalDate dataEntrada;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name ="data_saida", columnDefinition = "DATE")
     private LocalDate dataSaida;
 

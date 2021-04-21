@@ -21,22 +21,22 @@
             </a>
         </nav>
     </div>
+    <div th:replace="fragments/alert"></div>
 
     <div class="container" id="cadastro">
-        <form action="/funcionarios/salvar" method="POST">
+        <form th:action="@{/funcionarios/salvar}" th:object = "${funcionario}" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="nome">Nome do Funcionário</label>
                     <input type="text" class="form-control" id="nome" placeholder="Nome Completo"
-                           autofocus="autofocus" name="nome" value=""/>
+                           autofocus="autofocus" th:field="*{nome}"/>
                     <div class="invalid-feedback">
-
                     </div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="salario">Salário Bruto</label>
                     <input type="text" class="form-control" id="salario" data-mask="#.##0,00"
-                           data-mask-reverse="true" name="salario" value=""/>
+                           data-mask-reverse="true" th:field="*{salario}"/>
                     <div class="invalid-feedback">
 
                     </div>
@@ -45,14 +45,14 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="dataEntrada">Data de Entrada</label>
-                    <input type="date" class="form-control" id="dataEntrada" name="dataEntrada" value=""/>
+                    <input type="date" class="form-control" id="dataEntrada" th:field="*{dataEntrada}"/>
                     <div class="invalid-feedback">
 
                     </div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="dataSaida">Data de Saída</label>
-                    <input type="date" class="form-control" id="dataSaida" name="dataSaida" value=""/>
+                    <input type="date" class="form-control" id="dataSaida" th:field="*{dataSaida}"/>
                     <div class="invalid-feedback">
 
                     </div>
@@ -61,19 +61,10 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="cargo">Cargo</label>
-                    <select id="cargo" class="form-control" name="cargo">
+                    <select id="cargo" class="form-control" th:field="*{cargo}">
                         <option value="">Selecione...</option>
-                        <option value="1">Auxiliar Contábil</option>
-                        <option value="2">Auxiliar Administrativo</option>
-                        <option value="3">Contador</option>
-                        <option value="4">Adminitrador</option>
-                        <option value="5">Programado PHP</option>
-                        <option value="6">Desenvolvedor Java Jr.</option>
-                        <option value="7">Desenvolvedor Java Pleno</option>
-                        <option value="8">Desenvolvedor Java Senior</option>
-                        <option value="9">Auxiliar de RH</option>
-                        <option value="10">Coordenador de RH</option>
-                        <option value="11">Psicologo</option>
+                        <option th:each = "c: ${cargos}" th:value="${c.id}" th:text="${c.nome}"></option>
+
                     </select>
                     <div class="invalid-feedback">
 
@@ -83,7 +74,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="cidade">Cidade</label>
-                    <input type="text" class="form-control" id="cidade" name="endereco.cidade" value=""/>
+                    <input type="text" class="form-control" id="cidade" th:field="*{endereco.cidade}"/>
                     <div class="invalid-feedback">
 
                     </div>
@@ -91,7 +82,7 @@
                 <div class="form-group col-md-6">
                     <label for="logradouro">Logradouro</label>
                     <input type="text" class="form-control" id="logradouro" placeholder="logradouro sem número"
-                           name="endereco.logradouro" value=""/>
+                           th:field="*{endereco.logradouro}"/>
                     <div class="invalid-feedback">
 
                     </div>
@@ -100,7 +91,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="numero">Número</label>
-                    <input type="text" class="form-control" id="numero" name="endereco.numero" value=""/>
+                    <input type="text" class="form-control" id="numero" th:field="*{endereco.numero}"/>
                     <div class="invalid-feedback">
 
                     </div>
@@ -108,7 +99,7 @@
                 <div class="form-group col-md-6">
                     <label for="complemento">Complemento</label>
                     <input type="text" class="form-control" id="complemento" placeholder="fundos, casa, AP. 102, .."
-                           name="endereco.complemento" value=""/>
+                           th:field="*{endereco.complemento}"/>
                     <div class="invalid-feedback">
 
                     </div>
@@ -117,41 +108,16 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="bairro">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" name="endereco.bairro" value=""/>
+                    <input type="text" class="form-control" id="bairro" th:field="*{endereco.bairro}"/>
                     <div class="invalid-feedback">
 
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="uf">UF</label>
-                    <select id="uf" class="form-control" name="endereco.uf">
+                    <select id="uf" class="form-control" th:field="*{endereco.uf}">
                         <option value="">Selecione...</option>
-                        <option value="AC">AC</option>
-                        <option value="AL">AL</option>
-                        <option value="AM">AM</option>
-                        <option value="BA">BA</option>
-                        <option value="CE">CE</option>
-                        <option value="DF">DF</option>
-                        <option value="ES">ES</option>
-                        <option value="GO">GO</option>
-                        <option value="MA">MA</option>
-                        <option value="MT">MT</option>
-                        <option value="MS">MS</option>
-                        <option value="MG">MG</option>
-                        <option value="PA">PA</option>
-                        <option value="PB">PB</option>
-                        <option value="PR">PR</option>
-                        <option value="PE">PE</option>
-                        <option value="PI">PI</option>
-                        <option value="RJ">RJ</option>
-                        <option value="RN">RN</option>
-                        <option value="RS">RS</option>
-                        <option value="RO">RO</option>
-                        <option value="RR">RR</option>
-                        <option value="SC">SC</option>
-                        <option value="SP">SP</option>
-                        <option value="SE">SE</option>
-                        <option value="TO">TO</option>
+                        <option th:each="uf : ${ufs}" th:value="${uf}" th:text="${uf.descricao}"></option>
                     </select>
                     <div class="invalid-feedback">
 
@@ -159,8 +125,7 @@
                 </div>
                 <div class="form-group col-md-2">
                     <label for="cep">Cep</label>
-                    <input type="text" class="form-control" id="cep" data-mask="00000-000" name="endereco.cep"
-                           value=""/>
+                    <input type="text" class="form-control" id="cep" data-mask="00000-000" th:field="*{endereco.cep}"/>
                     <div class="invalid-feedback">
 
                     </div>
