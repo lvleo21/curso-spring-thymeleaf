@@ -23,6 +23,7 @@
             </a>
         </div>
     </nav>
+    <div th:replace="fragments/alert"></div>
 
     <div class="container">
 
@@ -43,11 +44,12 @@
                 <div class="collapse" id="collapseNome">
 
                     <nav class="navbar navbar-light bg-light">
-                        <form class="form-inline" method="GET" action="/funcionarios/buscar/nome">
+                        <form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/nome/}">
                             <input class="form-control mr-sm-2" type="search" placeholder="nome" aria-label="Search"
-                                   name="nome"/>
+                                   th:name="nome"/>
                             <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
                         </form>
+
                     </nav>
 
                 </div>
@@ -58,20 +60,11 @@
                 <div class="collapse" id="collapseCargo">
 
                     <nav class="navbar navbar-light bg-light">
-                        <form class="form-inline" method="GET" action="/funcionarios/buscar/cargo">
-                            <select class="form-control mr-sm-2" name="cargo" aria-label="Search">
+                        <form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/cargo/}">
+                            <select class="form-control mr-sm-2" th:name="id" aria-label="Search">
                                 <option value="">Cargo</option>
-                                <option value="1">Auxiliar Contábil</option>
-                                <option value="2">Auxiliar Administrativo</option>
-                                <option value="3">Contador</option>
-                                <option value="4">Adminitrador</option>
-                                <option value="5">Programado PHP</option>
-                                <option value="6">Desenvolvedor Java Jr.</option>
-                                <option value="7">Desenvolvedor Java Pleno</option>
-                                <option value="8">Desenvolvedor Java Senior</option>
-                                <option value="9">Auxiliar de RH</option>
-                                <option value="10">Coordenador de RH</option>
-                                <option value="11">Psicologo</option>
+                                <option th:each="c : ${cargos}" th:value="${c.id}" th:text="${c.nome}"></option>
+
                             </select>
                             <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
                         </form>
@@ -85,11 +78,11 @@
                 <div class="collapse" id="collapseData">
 
                     <nav class="navbar navbar-light bg-light">
-                        <form class="form-inline" method="GET" action="/funcionarios/buscar/data">
+                        <form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/data/}">
                             <input class="form-control mr-sm-2" type="date" aria-label="Search"
-                                   name="entrada"/>
+                                   th:name="entrada"/>
                             <input class="form-control mr-sm-2" type="date" aria-label="Search"
-                                   name="saida"/>
+                                   th:name="saida"/>
                             <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
                         </form>
                     </nav>
@@ -100,7 +93,7 @@
 
 
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-sm">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -115,135 +108,47 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Jorge da Silva</td>
-                    <td>R$ 3.500,99</td>
-                    <td>Recursos Humanos</td>
-                    <td>Auxiliar de RH</td>
+                <tr th:each = "f : ${funcionarios}">
+                    <td th:text="${f.id}"></td>
+                    <td th:text="${f.nome}"></td>
+                    <td th:text="|R$ ${{f.salario}}|"></td>
+                    <td th:text="${f.cargo.departamento.nome}"></td>
+                    <td th:text="${f.cargo.nome}"></td>
                     <td>
                         <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-                                data-toggle="popover" data-placement="top"
-                                data-content="Rua das Oliveiras, 260 Fundos - Centro, Porto Alegre - RS - 97050-015">
+                                data-toggle="popover" data-placement="right"
+                                th:attr="data-content=${#strings.concat(
+                                f.endereco.logradouro, ', ',
+                                f.endereco.numero, ' ',
+                                f.endereco.complemento, ' - ',
+                                f.endereco.bairro, ', ',
+                                f.endereco.cidade, ' - ',
+                                f.endereco.uf.sigla, ' - ',
+                                f.endereco.cep
+                                )}">
+
                             <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
                         </button>
                     </td>
-                    <td>01/10/2014</td>
-                    <td></td>
+                    <td th:text="${#temporals.format(f.dataEntrada, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#temporals.format(f.dataSaida, 'dd/MM/yyyy')}"></td>
+
                     <td colspan="2">
-                        <a class="btn btn-info btn-sm" href="/funcionarios/editar/1" role="button">
+                        <a class="btn btn-info btn-sm" th:href="@{/funcionarios/editar/{id} (id=${f.id})}" role="button">
                             <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
                         </a>
-                        <button id="btn_funcionarios/excluir/1" type="button" class="btn btn-danger btn-sm"
+                        <button th:id="${#strings.concat('btn_funcionarios/excluir/', f.id)}" type="button" class="btn btn-danger btn-sm"
                                 data-toggle="modal" data-target="#myModal">
                             <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
                         </button>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Ana Maria Lindoval</td>
-                    <td>R$ 3.560,70</td>
-                    <td>Administração</td>
-                    <td>Auxiliar Administrativo</td>
-                    <td>
-                        <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-                                data-toggle="popover" data-placement="top"
-                                data-content="Av. dos Palmares, 320  - Ribeirão, Canoas - RS - 98050-908">
-                            <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                    <td>01/08/2014</td>
-                    <td>02/03/2015</td>
-                    <td colspan="2">
-                        <a class="btn btn-info btn-sm" href="/funcionarios/editar/2" role="button">
-                            <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-                        </a>
-                        <button id="btn_funcionarios/excluir/2" type="button" class="btn btn-danger btn-sm"
-                                data-toggle="modal" data-target="#myModal">
-                            <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Juan Perez</td>
-                    <td>R$ 4.060,99</td>
-                    <td>Tecnologia da Informação</td>
-                    <td>Desenvolvedor Java Jr.</td>
-                    <td>
-                        <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-                                data-toggle="popover" data-placement="top"
-                                data-content="Rua Senador Cassiano do Nascimento, 135 AP. 106 - Noroeste, Porto Alegre - RS - 90798-099">
-                            <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                    <td>05/01/2015</td>
-                    <td></td>
-                    <td colspan="2">
-                        <a class="btn btn-info btn-sm" href="/funcionarios/editar/3" role="button">
-                            <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-                        </a>
-                        <button id="btn_funcionarios/excluir/3" type="button" class="btn btn-danger btn-sm"
-                                data-toggle="modal" data-target="#myModal">
-                            <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Marcio Silva</td>
-                    <td>R$ 2.890,99</td>
-                    <td>Contabilidade</td>
-                    <td>Auxiliar Contábil</td>
-                    <td>
-                        <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-                                data-toggle="popover" data-placement="top"
-                                data-content="Av. Maracanã, 309 AP. 108 - Maracanã, Rio de Janeiro - RJ - 91050-980">
-                            <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                    <td>18/10/2013</td>
-                    <td>06/09/2015</td>
-                    <td colspan="2">
-                        <a class="btn btn-info btn-sm" href="/funcionarios/editar/4" role="button">
-                            <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-                        </a>
-                        <button id="btn_funcionarios/excluir/4" type="button" class="btn btn-danger btn-sm"
-                                data-toggle="modal" data-target="#myModal">
-                            <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Joana Prado</td>
-                    <td>R$ 3.804,00</td>
-                    <td>Recursos Humanos</td>
-                    <td>Coordenador de RH</td>
-                    <td>
-                        <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-                                data-toggle="popover" data-placement="top"
-                                data-content="Rua Gomes Carneiro, 909  - Centro, Porto Alegre - RS - 98080-999">
-                            <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                    <td>01/05/2015</td>
-                    <td></td>
-                    <td colspan="2">
-                        <a class="btn btn-info btn-sm" href="/funcionarios/editar/5" role="button">
-                            <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-                        </a>
-                        <button id="btn_funcionarios/excluir/5" type="button" class="btn btn-danger btn-sm"
-                                data-toggle="modal" data-target="#myModal">
-                            <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                </tr>
+
                 </tbody>
             </table>
         </div>
     </div>
+    <div th:replace="fragments/modal :: modal"></div>
 </section>
 
 </body>

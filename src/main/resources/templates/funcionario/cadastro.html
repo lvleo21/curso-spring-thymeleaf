@@ -24,7 +24,7 @@
     <div th:replace="fragments/alert"></div>
 
     <div class="container" id="cadastro">
-        <form th:action="@{/funcionarios/salvar}" th:object = "${funcionario}" method="POST">
+        <form th:action="${funcionario.id == null} ? @{/funcionarios/salvar}: @{/funcionarios/editar}" th:object = "${funcionario}" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="nome">Nome do Funcionário</label>
@@ -63,7 +63,7 @@
                     <label for="cargo">Cargo</label>
                     <select id="cargo" class="form-control" th:field="*{cargo}">
                         <option value="">Selecione...</option>
-                        <option th:each = "c: ${cargos}" th:value="${c.id}" th:text="${c.nome}"></option>
+                        <option th:each="c: ${cargos}" th:value="${c.id}" th:text="${c.nome}"></option>
 
                     </select>
                     <div class="invalid-feedback">
@@ -131,7 +131,9 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="id" name="id" value=""/>
+            <input type="hidden" id="endereco.id" th:field="*{endereco.id}"/>
+            <input type="hidden" id="id" th:field="*{id}"/>
+
             <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
         </form>
     </div>

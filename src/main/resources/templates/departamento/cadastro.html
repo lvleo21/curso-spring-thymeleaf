@@ -22,7 +22,9 @@
     </nav>
 
     <div class="container" id="cadastro">
-        <form th:action="${departamento.id == null} ? @{/departamentos/salvar} : @{/departamentos/editar}" th:object="${departamento}" method="POST">
+        <form th:action="${departamento.id == null} ? @{/departamentos/salvar} : @{/departamentos/editar}"
+              th:object="${departamento}" method="POST">
+            <div th:replace="fragments/validacao :: validacao"></div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="nome">Departamento</label>

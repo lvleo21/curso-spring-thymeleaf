@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Form</title>
+</head>
+
+<body>
+
+<form th:action="@{/}" method="get">
+    <button type="Submit">Go To Login Page</button>
+</form>
+
+<form autocomplete="off" th:action="@{/registration/save}" th:object="${user}" method="post" role="form">
+
+    <h2>Registration Form</h2>
+
+    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+    <input type="text" th:field="*{name}" placeholder="Name"/> <br>
+
+    <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></label>
+    <input type="text" th:field="*{lastName}" placeholder="Last Name"/> <br>
+
+    <input type="text" th:field="*{email}" placeholder="Email"/>
+    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label> <br>
+
+    <input type="text" th:field="*{userName}" placeholder="User Name"/>
+    <label th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></label> <br>
+
+    <input type="password" th:field="*{password}" placeholder="Password"/>
+    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label> <br>
+
+
+    <div>
+        <button type="submit">Register User</button>
+    </div>
+
+    <h2><span th:utext="${successMessage}"></span></h2>
+
+</form>
+
+</body>
+
+</html>

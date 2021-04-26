@@ -16,7 +16,7 @@ public class StringToCargoConverter implements Converter<String, Cargo> {
     public Cargo convert(String text) {
         if(!text.isEmpty()){
             Long id = Long.valueOf(text);
-            cargoService.buscarPorId(id);
+            return cargoService.buscarPorId(id);
         }
 
         return null;
