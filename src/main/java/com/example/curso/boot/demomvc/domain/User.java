@@ -1,32 +1,39 @@
 package com.example.curso.boot.demomvc.domain;
 
 
-import org.hibernate.validator.constraints.Email;
+
+
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "AUTH_USERS")
+@Table(name = "USERS")
 public class User extends AbstractEntity<Long>{
 
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     @Length(min = 5, message = "*Your user name must have at least 5 characters")
     @NotEmpty(message = "*Please provide a user name")
     private String userName;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     @Email(message = "*Please provide a valid Email")
     @NotEmpty(message = "*Please provide an email")
     private String email;
 
+//    @Length(min = 6, max = 11, message = "Sua senha deve conter entre {min} e {max} caracteres.")
     @Column(name = "password", nullable = false)
-    @Length(min = 5, message = "*Your password must have at least 5 characters")
-    @NotEmpty(message = "*Please provide your password")
+//    @Pattern(regexp = "^[A-Z]+[a-z]+\\d+$",
+//            message = "* Sua senha deve possuir pelo menos uma letra maiúscula; <br> " +
+//                      "* Sua senha deve possuir pelo menos uma letra minúscula;<br> " +
+//                      "* Sua senha não pode conter caracteres especiais;"
+//    )
     private String password;
 
     @Column(name = "name", nullable = false)

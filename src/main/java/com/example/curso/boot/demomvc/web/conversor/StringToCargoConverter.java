@@ -1,4 +1,4 @@
-package com.example.curso.boot.demomvc.controller.conversor;
+package com.example.curso.boot.demomvc.web.conversor;
 
 import com.example.curso.boot.demomvc.domain.Cargo;
 import com.example.curso.boot.demomvc.service.CargoService;

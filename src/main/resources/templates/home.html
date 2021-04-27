@@ -29,15 +29,7 @@
 <!--				</button>-->
 <!--			</form>-->
 
-			<a class="btn btn-primary" th:href="@{/logout}">Logout</a>
 
-
-
-
-			<div th:object="${session.user}" th:unless="${session == null}" >
-				<p>Username: <span th:text="*{userName}"></span></p>
-
-			</div>
 
 
 			<div id="list-home" class="row">

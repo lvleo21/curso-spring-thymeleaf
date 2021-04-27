@@ -1,11 +1,15 @@
-package com.example.curso.boot.demomvc.controller;
+package com.example.curso.boot.demomvc.web.controller;
 
 import com.example.curso.boot.demomvc.domain.User;
 import com.example.curso.boot.demomvc.service.UserService;
+import com.example.curso.boot.demomvc.web.validator.FuncionarioValidator;
+import com.example.curso.boot.demomvc.web.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +23,11 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.addValidators(new UserValidator());
+    }
 
     @GetMapping("/login")
     public ModelAndView login(){
@@ -37,21 +46,24 @@ public class LoginController {
     }
 
     @PostMapping("/registration/save")
-    public String createNewUser(User user, BindingResult bindingResult, RedirectAttributes attr) {
-        User userExists = userService.buscarPorUsername(user.getUserName());
-        if (userExists != null) {
-            bindingResult
-                    .rejectValue("userName", "error.user",
-                            "There is already a user registered with the user name provided");
-        }
+    public String createNewUser(@Valid User user, BindingResult bindingResult, RedirectAttributes attr) {
+        System.out.println("ENTROU NO CREATE NEW USER");
+
+//        User userExists = userService.buscarPorUsername(user.getUserName());
+//
+//        if (userExists != null) {
+//            bindingResult
+//                    .rejectValue("userName", "error.user",
+//                            "There is already a user registered with the user name provided");
+//        }
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/registration";
+            System.out.println("ENTROU NO HAS ERRORS DO BINDRESULT DO USUARIO");
+            return "account/registration";
 
         } else {
             userService.save(user);
             attr.addFlashAttribute("successMessage", "User has been registered successfully");
-            attr.addFlashAttribute("user", new User());
             return "redirect:/login";
         }
 

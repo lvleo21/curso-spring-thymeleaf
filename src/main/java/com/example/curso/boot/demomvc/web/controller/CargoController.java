@@ -1,10 +1,9 @@
-package com.example.curso.boot.demomvc.controller;
+package com.example.curso.boot.demomvc.web.controller;
 
 import com.example.curso.boot.demomvc.domain.Cargo;
 import com.example.curso.boot.demomvc.domain.Departamento;
 import com.example.curso.boot.demomvc.service.CargoService;
 import com.example.curso.boot.demomvc.service.DepartamentoService;
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

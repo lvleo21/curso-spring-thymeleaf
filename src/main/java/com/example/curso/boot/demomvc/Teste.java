@@ -17,5 +17,14 @@ public class Teste {
 
         System.out.println(start2.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
         System.out.println(finish2.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+
+        String s = "leo_10272109"; // Como deveria ser
+
+        String regex = "^[A-Z]+[a-z]+\\d+$";
+
+
+        System.out.println(s.matches(regex));
+
+
     }
 }

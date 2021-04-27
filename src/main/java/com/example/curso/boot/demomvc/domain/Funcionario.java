@@ -42,6 +42,7 @@ public class Funcionario extends AbstractEntity<Long>{
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
+    @NotNull(message="{NotNull.funcionario.cargo}")
     @ManyToOne // um cargo vai ter muitos funcionários
     @JoinColumn(name = "cargo_id")
     private Cargo cargo;
