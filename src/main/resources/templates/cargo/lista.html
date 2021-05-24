@@ -31,13 +31,23 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Cargo</th>
+                    <th>
+                        <a th:href="@{/cargos/listar(page=${pageCargo.pagina}, dir=asc)}" tabindex="-1" aria-disabled="true">
+                            <i class="fas fa-sort-alpha-down"></i>
+                        </a>
+
+                        Cargo
+
+                        <a th:href="@{/cargos/listar(page=${pageCargo.pagina}, dir=desc)}" tabindex="-1" aria-disabled="true">
+                            <i class="fas fa-sort-alpha-down-alt"></i>
+                        </a>
+                    </th>
                     <th>Departamento</th>
                     <th>Ação</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="c : ${cargos}">
+                <tr th:each="c : ${pageCargo.registros}">
                     <td th:text="${c.id}"></td>
                     <td th:text="${c.nome}"></td>
                     <td th:text="${c.departamento.nome}"></td>
@@ -55,6 +65,32 @@
 
                 </tbody>
             </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/cargos/listar(page=${1}, dir=${pageCargo.direcao})}" tabindex="-1" aria-disabled="true"> Primeira </a>
+                    </li>
+
+                    <li class="page-item" th:classappend="${pageCargo.pagina == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.pagina - 1}, dir=${pageCargo.direcao})}" tabindex="-1" aria-disabled="true"> Anterior </a>
+                    </li>
+
+                    <li class="page-item">
+                        <span class="page-link" th:text="|${pageCargo.pagina} de ${pageCargo.totalDePaginas}|"></span>
+                    </li>
+
+                    <li class="page-item"th:classappend="${pageCargo.pagina == pageCargo.totalDePaginas} ? 'disabled'">
+                        <a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.pagina + 1}, dir=${pageCargo.direcao})}"> Próxima </a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.totalDePaginas}, dir=${pageCargo.direcao})}" tabindex="-1" aria-disabled="true"> Última </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </div>
     <div th:replace="fragments/modal :: modal"></div>

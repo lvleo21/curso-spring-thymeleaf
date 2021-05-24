@@ -1,6 +1,7 @@
 package com.example.curso.boot.demomvc.service;
 
 import com.example.curso.boot.demomvc.domain.Cargo;
+import com.example.curso.boot.demomvc.util.PaginacaoUtil;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ public interface CargoService {
     void excluir(Long id);
     Cargo buscarPorId(Long id);
     List<Cargo> buscarTodos();
-
     boolean cargoTemFuncionarios(Long id);
+    PaginacaoUtil<Cargo> buscarPorPagina(int pagina, String direcao);
 }
